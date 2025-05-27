@@ -1,6 +1,6 @@
 import type { User } from 'firebase/auth';
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { login, register } from './actions';
+import { login, logout, register, verify } from './actions';
 
 interface State {
   currentUser: User | undefined | null;
@@ -15,7 +15,12 @@ const INITIAL_STATE: State = {
 const userSlice = createSlice({
   name: 'user',
   initialState: INITIAL_STATE,
-  reducers: {},
+  reducers: {
+    addUser: (state, action) => {
+      state.isPending = false;
+      state.currentUser = action.payload;
+    },
+  },
   extraReducers: builder =>
     builder
 
@@ -27,12 +32,37 @@ const userSlice = createSlice({
         state.isPending = false;
         state.currentUser = action.payload;
       })
-      .addMatcher(isAnyOf(login.pending, register.pending), state => {
-        state.isPending = true;
-      })
-      .addMatcher(isAnyOf(login.rejected, register.rejected), state => {
+      .addCase(logout.fulfilled, state => {
         state.isPending = false;
-      }),
+        state.currentUser = null;
+      })
+      .addCase(verify.fulfilled, (state, action) => {
+        state.isPending = false;
+        state.currentUser = action.payload;
+      })
+      .addMatcher(
+        isAnyOf(
+          login.pending,
+          register.pending,
+          logout.pending,
+          verify.pending
+        ),
+        state => {
+          state.isPending = true;
+        }
+      )
+      .addMatcher(
+        isAnyOf(
+          login.rejected,
+          register.rejected,
+          logout.rejected,
+          verify.rejected
+        ),
+        state => {
+          state.isPending = false;
+        }
+      ),
 });
 
+export const { addUser } = userSlice.actions;
 export default userSlice.reducer;

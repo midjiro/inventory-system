@@ -1,14 +1,10 @@
-import { LoginForm } from './components/LoginForm';
-import { RegisterForm } from './components/RegisterForm';
-import { useAuthGuard } from './hooks/useAuthGuard';
-import { selectCurrentUser, selectUserPending } from './selectors';
-import userReducer from './reducers';
+export { LogoutButton } from './components/LogoutButton';
+export { LoginForm } from './components/LoginForm';
+export { RegisterForm } from './components/RegisterForm';
+export { useAuthGuard } from './hooks/useAuthGuard';
+export { useAutoLogin } from './hooks/useAutoLogin';
+export { useUnauthorizedOnly } from './hooks/useUnauthorizedOnly';
+export { selectCurrentUser, selectUserPending } from './selectors';
+export { verify } from './actions';
 
-export {
-  LoginForm,
-  RegisterForm,
-  useAuthGuard,
-  userReducer,
-  selectCurrentUser,
-  selectUserPending,
-};
+export { default as userReducer } from './reducers';

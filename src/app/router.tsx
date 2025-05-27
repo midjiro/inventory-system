@@ -9,6 +9,7 @@ import { LogIn } from '@/pages/LogIn';
 import { Register } from '@/pages/Register';
 import { Centered } from '@/components/layout/Centered';
 import { Container } from '@/components/layout/Container';
+import { Verification } from '@/pages/Verification';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -16,6 +17,7 @@ export const router = createBrowserRouter(
       <Route path="/" element={<Centered />}>
         <Route index element={<LogIn />} />
         <Route path="register" element={<Register />} />
+        <Route path="verification" element={<Verification />} />
         <Route path="*" element={<NotFound />} />
       </Route>
       <Route path="/app" element={<Container />}>

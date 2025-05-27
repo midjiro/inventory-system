@@ -1,7 +1,14 @@
 import { Logo } from '@/components/common/Logo';
-import { RegisterForm } from '@/modules/auth';
+import {
+  RegisterForm,
+  useAutoLogin,
+  useUnauthorizedOnly,
+} from '@/modules/auth';
 
 export const Register = () => {
+  useAutoLogin();
+  useUnauthorizedOnly();
+
   return (
     <article className="min-w-[288px] w-full  max-w-[475px] p-6 rounded-lg border border-zinc-200 bg-white">
       <Logo className="mx-auto" />

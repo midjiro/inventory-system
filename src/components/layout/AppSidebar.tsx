@@ -7,6 +7,7 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Logo } from '@/components/common/Logo';
 import { NavTab } from '@/components/common/NavTab';
+import { LogoutButton } from '@/modules/auth';
 
 export const AppSidebar = () => {
   return (
@@ -16,11 +17,11 @@ export const AppSidebar = () => {
         <Separator className="my-4" />
       </SidebarHeader>
       <SidebarContent className="bg-white space-y-4 p-4">
-        <NavTab icon="LayoutGrid" label="Dashboard" to="/" />
-        <NavTab icon="Package" label="Inventory" to="/inventory" />
+        <NavTab icon="LayoutGrid" label="Dashboard" to="/app" />
+        <NavTab icon="Package" label="Inventory" to="/app/inventory" />
       </SidebarContent>
       <SidebarFooter className="bg-white">
-        <NavTab icon="LogIn" label="Log In" to="/login" />
+        <LogoutButton />
       </SidebarFooter>
     </Sidebar>
   );

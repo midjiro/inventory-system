@@ -3,7 +3,9 @@ import { getErrorMessage } from '@/lib/utils';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { FirebaseError } from 'firebase/app';
 import {
+  applyActionCode,
   createUserWithEmailAndPassword,
+  sendEmailVerification,
   signInWithEmailAndPassword,
   updateProfile,
 } from 'firebase/auth';
@@ -23,7 +25,12 @@ export const login = createAsyncThunk(
 
       return credentials.user;
     } catch (error) {
-      return rejectWithValue(getErrorMessage(error));
+      const msg =
+        error instanceof FirebaseError
+          ? getErrorMessage(error)
+          : 'We encountered an unexpected error. Contact us.';
+
+      return rejectWithValue(msg);
     }
   }
 );
@@ -44,12 +51,61 @@ export const register = createAsyncThunk(
         password
       );
       await updateProfile(credentials.user, { displayName: name });
+      await sendEmailVerification(credentials.user);
 
       return auth.currentUser;
     } catch (error) {
-      if (error instanceof FirebaseError) {
-        return rejectWithValue(getErrorMessage(error));
-      }
+      const msg =
+        error instanceof FirebaseError
+          ? getErrorMessage(error)
+          : 'We encountered an unexpected error. Contact us.';
+
+      return rejectWithValue(msg);
+    }
+  }
+);
+export const verify = createAsyncThunk(
+  'user/verify',
+  async (code: string, { rejectWithValue }) => {
+    try {
+      await applyActionCode(auth, code);
+      await auth.currentUser?.reload();
+      return auth.currentUser;
+    } catch (error) {
+      const msg =
+        error instanceof FirebaseError
+          ? getErrorMessage(error)
+          : 'We encountered an unexpected error. Contact us.';
+
+      return rejectWithValue(msg);
+    }
+  }
+);
+export const sendVerificationEmail = async () => {
+  try {
+    if (auth.currentUser) await sendEmailVerification(auth.currentUser);
+  } catch (error) {
+    const msg =
+      error instanceof FirebaseError
+        ? getErrorMessage(error)
+        : 'We encountered an unexpected error. Contact us.';
+
+    return msg;
+  }
+};
+
+export const logout = createAsyncThunk(
+  'user/logout',
+  async (_, { rejectWithValue }) => {
+    try {
+      await auth.signOut();
+    } catch (error) {
+      const msg =
+        error instanceof FirebaseError
+          ? getErrorMessage(error)
+          : 'We encountered an unexpected error. Contact us.';
+
+      return rejectWithValue(msg);
     }
   }
 );

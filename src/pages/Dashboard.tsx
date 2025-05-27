@@ -1,7 +1,9 @@
+import { Header } from '@/components/layout/Header';
+
 export const Dashboard = () => {
   return (
     <section>
-      <h3>Inventory list</h3>
+      <Header title="Dashboard" />
     </section>
   );
 };

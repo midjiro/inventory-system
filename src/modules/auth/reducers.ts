@@ -13,7 +13,7 @@ const INITIAL_STATE: State = {
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: 'inventory',
   initialState: INITIAL_STATE,
   reducers: {
     addUser: (state, action) => {

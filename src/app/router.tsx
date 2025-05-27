@@ -10,6 +10,7 @@ import { Register } from '@/pages/Register';
 import { Centered } from '@/components/layout/Centered';
 import { Container } from '@/components/layout/Container';
 import { Verification } from '@/pages/Verification';
+import { Inventory } from '@/pages/Inventory';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -22,6 +23,7 @@ export const router = createBrowserRouter(
       </Route>
       <Route path="/app" element={<Container />}>
         <Route index element={<Dashboard />} />
+        <Route path="inventory" element={<Inventory />} />
       </Route>
     </>
   )

@@ -20,13 +20,14 @@ export const CustomFormField: React.FC<Props> = ({
   name,
   label,
   description,
+  className,
   ...props
 }) => {
   return (
     <FormField
       name={name}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className={className}>
           {label && <FormLabel>{label}</FormLabel>}
           <FormControl>
             <Input {...field} {...props} />

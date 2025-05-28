@@ -24,8 +24,9 @@ import { selectInventory } from '../selectors';
 import { fetchInventory } from '../actions';
 import { columns } from '../constants/table-columns';
 import { SearchField } from './SearchField';
-import { ArrowLeft, ArrowRight, LoaderCircle } from 'lucide-react';
+import { ArrowLeft, ArrowRight, LoaderCircle, PackagePlus } from 'lucide-react';
 import { ColumnSelect } from './ColumnSelect';
+import { Link } from 'react-router-dom';
 
 export const ItemsList = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -67,6 +68,12 @@ export const ItemsList = () => {
         <section className="flex flex-wrap justify-between items-center gap-y-4 gap-x-6 py-4">
           <SearchField dataKey="product" table={table} />
           <div className="flex items-center gap-2">
+            <Button variant={'outline'} asChild>
+              <Link to="/app/add">
+                <PackagePlus />
+                <span>Add new</span>
+              </Link>
+            </Button>
             <ColumnSelect table={table} />
             <Button
               variant="outline"
@@ -94,6 +101,12 @@ export const ItemsList = () => {
       <section className="flex flex-wrap justify-between items-center gap-y-4 gap-x-6 py-4">
         <SearchField dataKey="product" table={table} />
         <div className="flex items-center gap-2">
+          <Button variant={'outline'} asChild>
+            <Link to="/app/add">
+              <PackagePlus />
+              <span>Add new</span>
+            </Link>
+          </Button>
           <ColumnSelect table={table} />
           <Button
             variant="outline"

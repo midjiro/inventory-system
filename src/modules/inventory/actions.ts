@@ -1,6 +1,6 @@
 import { db } from '@/lib/firebsae';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { collection, getDocs } from 'firebase/firestore';
+import { addDoc, collection, getDoc, getDocs } from 'firebase/firestore';
 import { itemConverter } from './converter';
 import type { IItem } from './models';
 import { FirebaseError } from 'firebase/app';
@@ -24,3 +24,25 @@ export const fetchInventory = createAsyncThunk<
     return rejectWithValue(msg);
   }
 });
+
+export const addInventoryItem = createAsyncThunk(
+  'inventory/add',
+  async (item: IItem, { rejectWithValue }) => {
+    try {
+      const newDocRef = await addDoc(
+        collection(db, 'inventory').withConverter(itemConverter),
+        item
+      );
+
+      const newItemSnap = await getDoc(newDocRef.withConverter(itemConverter));
+      return newItemSnap.data();
+    } catch (error) {
+      const msg =
+        error instanceof FirebaseError
+          ? getErrorMessage(error)
+          : 'We encountered an unexpected error. Contact us.';
+
+      return rejectWithValue(msg);
+    }
+  }
+);

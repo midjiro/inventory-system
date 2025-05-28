@@ -1,6 +1,6 @@
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
 import type { IItem } from './models';
-import { fetchInventory } from './actions';
+import { addInventoryItem, fetchInventory } from './actions';
 
 interface State {
   items: IItem[] | [];
@@ -27,13 +27,23 @@ const inventorySlice = createSlice({
         state.isPending = false;
         state.items = action.payload;
       })
-
-      .addMatcher(isAnyOf(fetchInventory.pending), state => {
-        state.isPending = true;
-      })
-      .addMatcher(isAnyOf(fetchInventory.rejected), state => {
+      .addCase(addInventoryItem.fulfilled, (state, action) => {
         state.isPending = false;
-      }),
+        if (action.payload) state.items.push(action.payload);
+      })
+
+      .addMatcher(
+        isAnyOf(fetchInventory.pending, addInventoryItem.pending),
+        state => {
+          state.isPending = true;
+        }
+      )
+      .addMatcher(
+        isAnyOf(fetchInventory.rejected, addInventoryItem.rejected),
+        state => {
+          state.isPending = false;
+        }
+      ),
 });
 
 export default inventorySlice.reducer;

@@ -26,7 +26,7 @@ import { columns } from '../constants/table-columns';
 import { SearchField } from './SearchField';
 import { ArrowLeft, ArrowRight, LoaderCircle, PackagePlus } from 'lucide-react';
 import { ColumnSelect } from './ColumnSelect';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const ItemsList = () => {
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -35,6 +35,7 @@ export const ItemsList = () => {
   const [rowSelection, setRowSelection] = useState({});
   const { isPending, items } = useAppSelector(selectInventory);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchInventory());
@@ -151,6 +152,12 @@ export const ItemsList = () => {
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && 'selected'}
+                onClick={() => {
+                  const itemId = row.original.id;
+                  if (itemId) {
+                    navigate(`/app/details/${itemId}`);
+                  }
+                }}
               >
                 {row.getVisibleCells().map(cell => (
                   <TableCell key={cell.id}>

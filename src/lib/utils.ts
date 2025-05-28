@@ -14,3 +14,9 @@ export const getErrorMessage = (error: any | unknown | FirebaseError) => {
 
   return 'Unable to perform your action. We are on the way to fix it';
 };
+
+export const formatPrice = (price: number) =>
+  new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }).format(price);

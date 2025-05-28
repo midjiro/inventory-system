@@ -8,8 +8,6 @@ export const useUnauthorizedOnly = () => {
   const { isPending, currentUser } = useAppSelector(selectCurrentUser);
 
   useEffect(() => {
-    if (isPending || !currentUser) return;
-
-    navigate('/app');
+    if (!isPending && currentUser) navigate('/app');
   }, [currentUser, isPending, navigate]);
 };

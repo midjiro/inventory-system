@@ -8,6 +8,7 @@ import {
   sendEmailVerification,
   signInWithEmailAndPassword,
   updateProfile,
+  type User,
 } from 'firebase/auth';
 
 export const login = createAsyncThunk(
@@ -24,6 +25,27 @@ export const login = createAsyncThunk(
       );
 
       return credentials.user;
+    } catch (error) {
+      const msg =
+        error instanceof FirebaseError
+          ? getErrorMessage(error)
+          : 'We encountered an unexpected error. Contact us.';
+
+      return rejectWithValue(msg);
+    }
+  }
+);
+
+export const loginFromCache = createAsyncThunk(
+  'user/login-cached',
+  async (user: User | null, { rejectWithValue }) => {
+    try {
+      if (!user) return null;
+
+      await user.getIdToken();
+      await user.reload();
+
+      return user;
     } catch (error) {
       const msg =
         error instanceof FirebaseError

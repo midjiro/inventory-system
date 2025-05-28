@@ -5,9 +5,9 @@ import { selectCurrentUser } from '@/modules/auth/selectors';
 
 export const useAuthGuard = () => {
   const navigate = useNavigate();
-  const { currentUser } = useAppSelector(selectCurrentUser);
+  const { isPending, currentUser } = useAppSelector(selectCurrentUser);
 
   useEffect(() => {
-    if (!currentUser) navigate('/');
-  }, [currentUser, navigate]);
+    if (!isPending && !currentUser) navigate('/');
+  }, [isPending, currentUser, navigate]);
 };

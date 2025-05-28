@@ -1,6 +1,6 @@
 import type { User } from 'firebase/auth';
 import { createSlice, isAnyOf } from '@reduxjs/toolkit';
-import { login, logout, register, verify } from './actions';
+import { login, loginFromCache, logout, register, verify } from './actions';
 
 interface State {
   currentUser: User | undefined | null;
@@ -15,37 +15,32 @@ const INITIAL_STATE: State = {
 const userSlice = createSlice({
   name: 'inventory',
   initialState: INITIAL_STATE,
-  reducers: {
-    addUser: (state, action) => {
-      state.isPending = false;
-      state.currentUser = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: builder =>
     builder
-
-      .addCase(login.fulfilled, (state, action) => {
-        state.isPending = false;
-        state.currentUser = action.payload;
-      })
-      .addCase(register.fulfilled, (state, action) => {
-        state.isPending = false;
-        state.currentUser = action.payload;
-      })
       .addCase(logout.fulfilled, state => {
         state.isPending = false;
         state.currentUser = null;
       })
-      .addCase(verify.fulfilled, (state, action) => {
-        state.isPending = false;
-        state.currentUser = action.payload;
-      })
+      .addMatcher(
+        isAnyOf(
+          login.fulfilled,
+          register.fulfilled,
+          verify.fulfilled,
+          loginFromCache.fulfilled
+        ),
+        (state, action) => {
+          state.isPending = false;
+          state.currentUser = action.payload;
+        }
+      )
       .addMatcher(
         isAnyOf(
           login.pending,
           register.pending,
           logout.pending,
-          verify.pending
+          verify.pending,
+          loginFromCache.pending
         ),
         state => {
           state.isPending = true;
@@ -56,7 +51,8 @@ const userSlice = createSlice({
           login.rejected,
           register.rejected,
           logout.rejected,
-          verify.rejected
+          verify.rejected,
+          loginFromCache.rejected
         ),
         state => {
           state.isPending = false;
@@ -64,5 +60,4 @@ const userSlice = createSlice({
       ),
 });
 
-export const { addUser } = userSlice.actions;
 export default userSlice.reducer;

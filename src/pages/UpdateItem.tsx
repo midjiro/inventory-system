@@ -9,10 +9,17 @@ import { selectInventoryItem } from '@/modules/inventory';
 export const UpdateItem = () => {
   const { id } = useParams();
   const { item } = useAppSelector(state => selectInventoryItem(state, id));
+  const breadcrumbs = [
+    { path: '/app/inventory', label: 'Inventory' },
+    {
+      path: `/app/inventory/update/${id}`,
+      label: id ?? 'Product...',
+    },
+  ];
 
   return (
     <>
-      <Header title="Update item information" />
+      <Header title="Update item information" breadcrumbs={breadcrumbs} />
       <section className="p-6 border border-zinc-200 bg-white rounded-lg">
         <ItemForm
           action={updateInventoryItem}

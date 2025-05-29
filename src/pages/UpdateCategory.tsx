@@ -9,10 +9,17 @@ import { useParams } from 'react-router-dom';
 export const UpdateCategory = () => {
   const { id } = useParams();
   const { item } = useAppSelector(state => selectCategoryItem(state, id));
+  const breadcrumbs = [
+    { path: '/app/categories', label: 'Category' },
+    {
+      path: `/app/categories/${id}`,
+      label: id ?? 'Category...',
+    },
+  ];
 
   return (
     <>
-      <Header title="Update category" />
+      <Header title="Update category" breadcrumbs={breadcrumbs} />
       <section className="p-6 border border-zinc-200 bg-white rounded-lg">
         <CategoryForm
           action={updateCategory}

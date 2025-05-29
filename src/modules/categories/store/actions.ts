@@ -75,7 +75,7 @@ export const updateCategory = createAsyncThunk(
       if (!id) return rejectWithValue('Unable to access item identifier.');
 
       const ref = doc(db, 'categories', id);
-      await updateDoc(ref, updateData);
+      await updateDoc(ref, { ...updateData, updatedAt: serverTimestamp() });
       const updatedDoc = await getDoc(ref);
 
       return { id: updatedDoc.id, ...updatedDoc.data() } as ICategory;

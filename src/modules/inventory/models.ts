@@ -1,5 +1,5 @@
 export interface IItem {
-  id?: string;
+  id: string;
   product: string;
   category: string;
   sku: string;

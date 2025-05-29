@@ -1,8 +1,10 @@
 import type { IItem } from '../models';
-import { DefaultCell } from '../components/DefaultCell';
-import { SortButton } from '../components/SortButton';
-import { PriceCell } from '../components/PriceCell';
+import { DefaultCell } from '@/components/common/DefaultCell';
+import { SortButton } from '@/components/common/SortButton';
+import { PriceCell } from '@/components/common/PriceCell';
 import type { ColumnDef } from '@tanstack/react-table';
+import { ActionsDropdown } from '@/components/layout/ActionsDropdown';
+import { removeInventoryItem } from '../actions';
 
 export const columns: ColumnDef<IItem>[] = [
   {
@@ -13,7 +15,9 @@ export const columns: ColumnDef<IItem>[] = [
   {
     accessorKey: 'category',
     header: ({ column }) => <SortButton label={'Category'} {...column} />,
-    cell: ({ row }) => <DefaultCell dataKey="category" {...row} />,
+    cell: ({ row }) => (
+      <DefaultCell dataKey="category" className="capitalize" {...row} />
+    ),
   },
   {
     accessorKey: 'sku',
@@ -42,5 +46,20 @@ export const columns: ColumnDef<IItem>[] = [
     header: ({ column }) => <SortButton label="Total revenue" {...column} />,
 
     cell: ({ row }) => <PriceCell dataKey="totalRevenue" {...row} />,
+  },
+  {
+    id: 'actions',
+    cell: ({ row }) => {
+      const item = row.original;
+
+      return (
+        <ActionsDropdown
+          item={item}
+          showMoreLink={`/app/details/${item.id}`}
+          updateLink={`/app/edit/${item.id}`}
+          onDelete={removeInventoryItem}
+        />
+      );
+    },
   },
 ];

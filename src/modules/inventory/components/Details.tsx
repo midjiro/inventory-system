@@ -7,16 +7,14 @@ import {
   LoaderCircle,
   Locate,
   Package,
-  Pencil,
   ScanBarcode,
   Tag,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { buttonVariants } from '@/components/ui/button';
 import { cn, formatPrice } from '@/lib/utils';
 import { QRCodeSVG } from 'qrcode.react';
-import { RemoveItemDialog } from './RemoveItemDialog';
 
 export const Details: React.FC<{ id: string | undefined }> = ({ id }) => {
   const { isPending, item } = useAppSelector(state =>
@@ -27,14 +25,14 @@ export const Details: React.FC<{ id: string | undefined }> = ({ id }) => {
 
   if (!id || !item)
     return (
-      <article className="min-w-[288px] w-full max-w-1/3 text-center">
+      <article className="min-w-[288px] w-full max-w-1/3 text-center mx-auto">
         <p>Ooops...</p>
         <h2 className="mt-2 mb-4">No data found</h2>
         <p>
-          We are unable to find data associated with that product. Try again or{' '}
+          We are unable to find data associated with that product. Try again or
           <Link
             to="/app/inventory"
-            className={buttonVariants({ variant: 'link' })}
+            className={cn(buttonVariants({ variant: 'link' }), 'px-2')}
           >
             get back to inventory
           </Link>
@@ -90,21 +88,6 @@ export const Details: React.FC<{ id: string | undefined }> = ({ id }) => {
           <DollarSign size={18} />
           <span>Total Revenue: {formatPrice(item.totalRevenue)}</span>
         </p>
-        <div className="flex flex-wrap items-center gap-4">
-          <Button
-            className="min-w-[144px] basis-1/3 flex-grow flex-shrink"
-            asChild
-          >
-            <Link to={`/app/edit/${item.id}`}>
-              <Pencil />
-              <span>Edit</span>
-            </Link>
-          </Button>
-          <RemoveItemDialog
-            id={item.id}
-            className="min-w-[144px] basis-1/3 flex-grow flex-shrink"
-          />
-        </div>
       </div>
     </article>
   );

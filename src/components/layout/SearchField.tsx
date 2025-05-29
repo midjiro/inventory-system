@@ -16,7 +16,7 @@ export const SearchField: React.FC<{ dataKey: string; table: Table<any> }> = ({
 
   return (
     <Input
-      placeholder="Filter products..."
+      placeholder="Searching for..."
       value={value as string}
       onChange={handleChange}
       className="max-w-sm"

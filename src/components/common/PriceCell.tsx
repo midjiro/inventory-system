@@ -1,18 +1,17 @@
-import React, { type HTMLProps } from 'react';
+import { type HTMLProps } from 'react';
 import type { Row } from '@tanstack/react-table';
-import type { IItem } from '../models';
 import { formatPrice } from '@/lib/utils';
 
-type Props = {
+type Props<TData> = {
   dataKey: string;
-} & Row<IItem> &
+} & Row<TData> &
   HTMLProps<HTMLDivElement>;
 
-export const PriceCell: React.FC<Props> = ({
+export const PriceCell = <TData,>({
   dataKey,
   getValue,
   className,
-}) => {
+}: Props<TData>) => {
   const amount = parseFloat(getValue(dataKey));
 
   const formatted = formatPrice(amount);

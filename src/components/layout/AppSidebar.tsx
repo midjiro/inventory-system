@@ -19,6 +19,7 @@ export const AppSidebar = () => {
       <SidebarContent className="bg-white space-y-4 p-4">
         <NavTab icon="LayoutGrid" label="Dashboard" to="/app" />
         <NavTab icon="Archive" label="Inventory" to="/app/inventory" />
+        <NavTab icon="Tag" label="Categories" to="/app/categories" />
       </SidebarContent>
       <SidebarFooter className="bg-white">
         <LogoutButton />

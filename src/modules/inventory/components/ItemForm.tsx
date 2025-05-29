@@ -10,9 +10,8 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import type { IItem } from '../models';
-import { categories } from '../constants/categories';
 import type { addInventoryItem, updateInventoryItem } from '../actions';
-import { selectInventory } from '../selectors';
+import { selectCategoriesWithLoading } from '../selectors';
 import { itemFormSchema } from '../validation/item-form';
 
 const values = {
@@ -41,7 +40,13 @@ export const ItemForm: React.FC<Props> = ({
   defaultValues,
 }) => {
   const dispatch = useAppDispatch();
-  const { isPending } = useAppSelector(selectInventory);
+  const { isPending, categories } = useAppSelector(selectCategoriesWithLoading);
+
+  const options = categories.map(category => ({
+    value: category.name.toLowerCase(),
+    label: category.name,
+  }));
+
   const form = useForm({
     defaultValues: defaultValues ?? values,
     resolver: yupResolver(itemFormSchema),
@@ -49,7 +54,6 @@ export const ItemForm: React.FC<Props> = ({
 
   const onReset = () => form.reset(values);
   const onSubmit = (data: IItem) => {
-    console.log(data);
     dispatch(action(data))
       .unwrap()
       .then(() =>
@@ -80,7 +84,7 @@ export const ItemForm: React.FC<Props> = ({
               <CustomSelectField
                 label="Category"
                 name="category"
-                options={categories}
+                options={options}
                 className="min-w-[288px] basis-full flex-grow flex-shrink"
               />
               <CustomFormField

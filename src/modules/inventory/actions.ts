@@ -37,7 +37,7 @@ export const fetchInventory = createAsyncThunk<
 
 export const addInventoryItem = createAsyncThunk(
   'inventory/add',
-  async (item: IItem, { rejectWithValue }) => {
+  async (item: Omit<IItem, 'id'>, { rejectWithValue }) => {
     try {
       const existingQuery = query(
         collection(db, 'inventory').withConverter(itemConverter),
@@ -96,8 +96,6 @@ export const removeInventoryItem = createAsyncThunk(
   'inventory/remove',
   async (id: string | undefined, { rejectWithValue }) => {
     try {
-      console.log('Item ID:', id);
-
       if (!id) return rejectWithValue('Unable to access item identifier.');
 
       const ref = doc(db, 'inventory', id).withConverter(itemConverter);

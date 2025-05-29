@@ -1,18 +1,16 @@
 import type { Row } from '@tanstack/react-table';
-import type { IItem } from '../models';
-import type React from 'react';
 import type { HTMLProps } from 'react';
 
-type Props = {
+type Props<TData> = {
   dataKey: string;
-} & Row<IItem> &
+} & Row<TData> &
   HTMLProps<HTMLDivElement>;
 
-export const DefaultCell: React.FC<Props> = ({
+export const DefaultCell = <TData,>({
   dataKey,
   getValue,
   className,
-}) => {
+}: Props<TData>) => {
   const value = getValue(dataKey);
 
   return <div className={className}>{(value as string) ?? 'N/A'}</div>;

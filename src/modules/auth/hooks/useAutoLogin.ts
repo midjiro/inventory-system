@@ -3,7 +3,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { useAppDispatch } from '@/hooks/redux';
 import { auth } from '@/lib/firebsae';
 import { toast } from 'sonner';
-import { loginFromCache } from '../actions';
+import { loginFromCache } from '../store/actions';
 
 export const useAutoLogin = () => {
   const dispatch = useAppDispatch();

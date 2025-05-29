@@ -1,9 +1,9 @@
 import { Header } from '@/components/layout/Header';
 import { ItemsList } from '@/components/layout/ItemList';
 import { useAppSelector } from '@/hooks/redux';
-import { columns } from '@/modules/categories/constants/table-columns';
+import { columns } from '@/modules/categories';
 
-import { selectCategories } from '@/modules/categories/store/selectors';
+import { selectCategories } from '@/modules/categories';
 
 export const Categories = () => {
   const { isPending, items } = useAppSelector(selectCategories);

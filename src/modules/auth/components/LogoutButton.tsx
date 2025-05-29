@@ -4,8 +4,8 @@ import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { LoaderCircle, LogOut } from 'lucide-react';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { selectCurrentUser } from '../selectors';
-import { logout } from '../actions';
+import { selectCurrentUser } from '../store/selectors';
+import { logout } from '../store/actions';
 import { toast } from 'sonner';
 
 export const LogoutButton: React.FC<HTMLProps<HTMLButtonElement>> = ({

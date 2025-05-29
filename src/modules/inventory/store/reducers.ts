@@ -1,5 +1,5 @@
 import { createSlice, isAnyOf, type PayloadAction } from '@reduxjs/toolkit';
-import type { IItem } from './models';
+import type { IItem } from '../models';
 import {
   addInventoryItem,
   fetchInventory,

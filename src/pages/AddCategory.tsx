@@ -1,6 +1,6 @@
 import { Header } from '@/components/layout/Header';
-import { CategoryForm } from '@/modules/categories/components/CategoryForm';
-import { addCategory } from '@/modules/categories/store/actions';
+import { CategoryForm } from '@/modules/categories';
+import { addCategory } from '@/modules/categories';
 
 import { Plus } from 'lucide-react';
 

@@ -1,8 +1,8 @@
 import { Header } from '@/components/layout/Header';
 import { useAppSelector } from '@/hooks/redux';
-import { CategoryForm } from '@/modules/categories/components/CategoryForm';
-import { updateCategory } from '@/modules/categories/store/actions';
-import { selectCategoryItem } from '@/modules/categories/store/selectors';
+import { CategoryForm } from '@/modules/categories';
+import { updateCategory } from '@/modules/categories';
+import { selectCategoryItem } from '@/modules/categories';
 import { Plus } from 'lucide-react';
 import { useParams } from 'react-router-dom';
 

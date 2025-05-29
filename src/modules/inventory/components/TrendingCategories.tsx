@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/chart';
 import { LoaderCircle, TrendingUp } from 'lucide-react';
 import { useAppSelector } from '@/hooks/redux';
-import { selectInventory } from '@/modules/inventory';
+import { selectInventory } from '../store/selectors';
 import { getLoadByCategory } from '../analytics';
 import type React from 'react';
 import type { HTMLProps } from 'react';
@@ -27,7 +27,7 @@ const chartConfig = {
   },
 };
 
-export const PopularCategoriesChart: React.FC<HTMLProps<HTMLDivElement>> = ({
+export const TrendingCategoriesChart: React.FC<HTMLProps<HTMLDivElement>> = ({
   className,
 }) => {
   const { isPending, items } = useAppSelector(selectInventory);

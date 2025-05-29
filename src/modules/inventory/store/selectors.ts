@@ -1,7 +1,7 @@
 import type { RootState } from '@/app/store';
 import { createSelector } from '@reduxjs/toolkit';
-import { type IItem } from './models';
-import { selectCategories } from '../categories/store/selectors';
+import { type IItem } from '../models';
+import { selectCategories } from '@/modules/categories/store/selectors';
 
 export const selectInventory = (state: RootState) => state.inventoryReducer;
 export const selectInventoryItem = createSelector(

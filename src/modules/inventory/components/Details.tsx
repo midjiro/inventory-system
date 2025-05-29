@@ -1,5 +1,5 @@
 import { useAppSelector } from '@/hooks/redux';
-import { selectInventoryItem } from '../selectors';
+import { selectInventoryItem } from '../store/selectors';
 import type React from 'react';
 import {
   Circle,

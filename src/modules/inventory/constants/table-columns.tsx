@@ -4,7 +4,7 @@ import { SortButton } from '@/components/common/SortButton';
 import { PriceCell } from '@/components/common/PriceCell';
 import type { ColumnDef } from '@tanstack/react-table';
 import { ActionsDropdown } from '@/components/layout/ActionsDropdown';
-import { removeInventoryItem } from '../actions';
+import { removeInventoryItem } from '../store/actions';
 
 export const columns: ColumnDef<IItem>[] = [
   {

@@ -1,7 +1,7 @@
 import { useAppSelector } from '@/hooks/redux';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { selectCurrentUser } from '../selectors';
+import { selectCurrentUser } from '../store/selectors';
 
 export const useUnauthorizedOnly = () => {
   const navigate = useNavigate();

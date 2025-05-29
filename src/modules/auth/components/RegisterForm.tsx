@@ -6,8 +6,8 @@ import { Button } from '@/components/ui/button';
 import { CustomFormField } from '@/components/layout/CustomFormField';
 import { registerValidationSchema } from '@/modules/auth/validation/auth';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { register } from '@/modules/auth/actions';
-import { selectUserPending } from '@/modules/auth/selectors';
+import { register } from '@/modules/auth/store/actions';
+import { selectUserPending } from '@/modules/auth/store/selectors';
 import { toast } from 'sonner';
 
 export const RegisterForm = () => {

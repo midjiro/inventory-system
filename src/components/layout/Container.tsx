@@ -1,11 +1,11 @@
-import { Outlet } from 'react-router-dom';
-import { AppSidebar } from '@/components/layout/AppSidebar';
-import { SidebarProvider } from '@/components/ui/sidebar';
-import { useAuthGuard, useAutoLogin } from '@/modules/auth';
-import { useAppDispatch } from '@/hooks/redux';
 import { useEffect } from 'react';
-import { fetchCategories } from '@/modules/categories/store/actions';
-import { fetchInventory } from '@/modules/inventory/actions';
+import { Outlet } from 'react-router-dom';
+import { SidebarProvider } from '@/components/ui/sidebar';
+import { AppSidebar } from '@/components/layout/AppSidebar';
+import { useAppDispatch } from '@/hooks/redux';
+import { useAuthGuard, useAutoLogin } from '@/modules/auth';
+import { fetchCategories } from '@/modules/categories';
+import { fetchInventory } from '@/modules/inventory';
 
 export const Container = () => {
   const dispatch = useAppDispatch();

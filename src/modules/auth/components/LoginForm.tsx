@@ -6,8 +6,8 @@ import { Button } from '@/components/ui/button';
 import { CustomFormField } from '@/components/layout/CustomFormField';
 import { loginValidationSchema } from '@/modules/auth/validation/auth';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { login } from '@/modules/auth/actions';
-import { selectUserPending } from '@/modules/auth/selectors';
+import { login } from '@/modules/auth/store/actions';
+import { selectUserPending } from '@/modules/auth/store/selectors';
 import { toast } from 'sonner';
 
 export const LoginForm = () => {

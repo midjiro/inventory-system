@@ -11,8 +11,8 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
-import { itemConverter } from './converter';
-import type { IItem } from './models';
+import { itemConverter } from '../converter';
+import type { IItem } from '../models';
 import { FirebaseError } from 'firebase/app';
 import { getErrorMessage } from '@/lib/utils';
 

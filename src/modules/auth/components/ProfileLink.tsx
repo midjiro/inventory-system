@@ -1,5 +1,5 @@
 import { useAppSelector } from '@/hooks/redux';
-import { selectCurrentUser } from '../selectors';
+import { selectCurrentUser } from '../store/selectors';
 import { LoaderCircle } from 'lucide-react';
 
 export const ProfileLink = () => {

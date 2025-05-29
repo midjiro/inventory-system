@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/chart';
 import { LoaderCircle, TrendingUp } from 'lucide-react';
 import { useAppSelector } from '@/hooks/redux';
-import { selectInventory } from '../selectors';
+import { selectInventory } from '../store/selectors';
 import { getLoadByLocation } from '../analytics';
 import type { HTMLProps } from 'react';
 import type React from 'react';

@@ -5,7 +5,7 @@ import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { selectCurrentUser, useAutoLogin, verify } from '@/modules/auth';
-import { sendVerificationEmail } from '@/modules/auth/actions';
+import { sendVerificationEmail } from '@/modules/auth/';
 
 export const Verification = () => {
   const dispatch = useAppDispatch();

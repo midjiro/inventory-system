@@ -1,7 +1,8 @@
 import { Header } from '@/components/layout/Header';
+import { ItemsList } from '@/components/layout/ItemList';
 import { useAppSelector } from '@/hooks/redux';
-import { ItemsList, selectInventory } from '@/modules/inventory';
-import { columns } from '@/modules/inventory/constants/table-columns';
+import { selectInventory } from '@/modules/inventory';
+import { columns } from '@/modules/inventory';
 
 export const Inventory = () => {
   const { isPending, items } = useAppSelector(selectInventory);

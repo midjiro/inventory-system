@@ -10,8 +10,8 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import type { IItem } from '../models';
-import type { addInventoryItem, updateInventoryItem } from '../actions';
-import { selectCategoriesWithLoading } from '../selectors';
+import type { addInventoryItem, updateInventoryItem } from '../store/actions';
+import { selectCategoriesWithLoading } from '../store/selectors';
 import { itemFormSchema } from '../validation/item-form';
 import { useVerifiedOnly } from '@/modules/auth/hooks/useVerifiedOnly';
 

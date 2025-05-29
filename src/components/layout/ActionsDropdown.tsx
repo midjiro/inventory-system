@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Eye, MoreHorizontal, Pencil, Trash } from 'lucide-react';
 import { useAppDispatch } from '@/hooks/redux';
 import { Link } from 'react-router-dom';
-import type { removeInventoryItem } from '@/modules/inventory/actions';
+import type { removeInventoryItem } from '@/modules/inventory';
 import type { removeCategory } from '@/modules/categories/store/actions';
 import { toast } from 'sonner';
 import { useVerifiedOnly } from '@/modules/auth/hooks/useVerifiedOnly';

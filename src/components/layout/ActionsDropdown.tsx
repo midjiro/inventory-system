@@ -11,14 +11,15 @@ import { Eye, MoreHorizontal, Pencil, Trash } from 'lucide-react';
 import { useAppDispatch } from '@/hooks/redux';
 import { Link } from 'react-router-dom';
 import type { removeInventoryItem } from '@/modules/inventory/actions';
-import type { deleteCategory } from '@/modules/categories/store/actions';
+import type { removeCategory } from '@/modules/categories/store/actions';
 import { toast } from 'sonner';
+import { useVerifiedOnly } from '@/modules/auth/hooks/useVerifiedOnly';
 
 interface ActionsDropdownProps<T extends { id: string }> {
   item: T;
   showMoreLink?: string;
   updateLink?: string;
-  onDelete: typeof removeInventoryItem | typeof deleteCategory;
+  onDelete: typeof removeInventoryItem | typeof removeCategory;
 }
 
 export const ActionsDropdown = <T extends { id: string }>({
@@ -27,6 +28,7 @@ export const ActionsDropdown = <T extends { id: string }>({
   updateLink,
   onDelete,
 }: ActionsDropdownProps<T>) => {
+  const allowedAction = useVerifiedOnly();
   const dispatch = useAppDispatch();
 
   const handleDelete = ({ id }: { id: string }) =>
@@ -56,7 +58,7 @@ export const ActionsDropdown = <T extends { id: string }>({
         )}
 
         {updateLink && (
-          <DropdownMenuItem asChild>
+          <DropdownMenuItem asChild disabled={!allowedAction}>
             <Link to={updateLink}>
               <Pencil />
               <span>Update</span>
@@ -65,7 +67,10 @@ export const ActionsDropdown = <T extends { id: string }>({
         )}
 
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => handleDelete(item)}>
+        <DropdownMenuItem
+          onClick={() => handleDelete(item)}
+          disabled={!allowedAction}
+        >
           <Trash className="text-red-600" />
           <span className="text-red-600">Delete</span>
         </DropdownMenuItem>

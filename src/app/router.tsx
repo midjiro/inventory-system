@@ -16,6 +16,7 @@ import { ItemDetails } from '@/pages/ItemDetails';
 import { UpdateItem } from '@/pages/UpdateItem';
 import { Categories } from '@/pages/Categories';
 import { AddCategory } from '@/pages/AddCategory';
+import { UpdateCategory } from '@/pages/UpdateCategory';
 
 export const router = createBrowserRouter(
   createRoutesFromElements(
@@ -28,12 +29,17 @@ export const router = createBrowserRouter(
       </Route>
       <Route path="/app" element={<Container />}>
         <Route index element={<Dashboard />} />
-        <Route path="inventory" element={<Inventory />} />
-        <Route path="categories" element={<Categories />} />
-        <Route path="add-item" element={<AddItem />} />
-        <Route path="add-category" element={<AddCategory />} />
-        <Route path="details/:id" element={<ItemDetails />} />
-        <Route path="edit/:id" element={<UpdateItem />} />
+        <Route path="inventory">
+          <Route index element={<Inventory />} />
+          <Route path="add" element={<AddItem />} />
+          <Route path=":id" element={<ItemDetails />} />
+          <Route path="update/:id" element={<UpdateItem />} />
+        </Route>
+        <Route path="categories">
+          <Route index element={<Categories />} />
+          <Route path="add" element={<AddCategory />} />
+          <Route path="update/:id" element={<UpdateCategory />} />
+        </Route>
       </Route>
     </>
   )

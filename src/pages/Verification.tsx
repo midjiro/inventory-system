@@ -61,7 +61,7 @@ export const Verification = () => {
         account is safe.
       </p>
       <Button
-        disabled={!currentUser?.emailVerified}
+        disabled={currentUser?.emailVerified}
         onClick={() =>
           sendVerificationEmail()
             .then(() =>

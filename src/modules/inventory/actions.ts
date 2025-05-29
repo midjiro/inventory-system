@@ -24,7 +24,7 @@ export const fetchInventory = createAsyncThunk<
   try {
     const ref = collection(db, 'inventory').withConverter(itemConverter);
     const snapshot = await getDocs(ref);
-    return snapshot.docs.map(doc => doc.data());
+    return snapshot.docs.map(doc => doc.data()) as IItem[];
   } catch (error) {
     const msg =
       error instanceof FirebaseError
@@ -57,7 +57,7 @@ export const addInventoryItem = createAsyncThunk(
       );
       const newItemSnap = await getDoc(newDocRef.withConverter(itemConverter));
 
-      return newItemSnap.data();
+      return newItemSnap.data() as IItem;
     } catch (error) {
       const msg =
         error instanceof FirebaseError
@@ -80,7 +80,7 @@ export const updateInventoryItem = createAsyncThunk(
       await updateDoc(ref, updateData);
       const updatedDoc = await getDoc(ref);
 
-      return updatedDoc.data();
+      return { id: updatedDoc.id, ...updatedDoc.data() } as IItem;
     } catch (error) {
       const msg =
         error instanceof FirebaseError

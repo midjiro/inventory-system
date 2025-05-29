@@ -3,7 +3,7 @@ import { DefaultCell } from '@/components/common/DefaultCell';
 import { SortButton } from '@/components/common/SortButton';
 import { TimestampCell } from '@/components/common/TimestampCell';
 import type { ColumnDef } from '@tanstack/react-table';
-import { deleteCategory } from '../store/actions';
+import { removeCategory } from '../store/actions';
 import { ActionsDropdown } from '@/components/layout/ActionsDropdown';
 
 export const columns: ColumnDef<ICategory>[] = [
@@ -33,7 +33,13 @@ export const columns: ColumnDef<ICategory>[] = [
     cell: ({ row }) => {
       const item = row.original;
 
-      return <ActionsDropdown item={item} onDelete={deleteCategory} />;
+      return (
+        <ActionsDropdown
+          item={item}
+          updateLink={`/app/categories/update/${item.id}`}
+          onDelete={removeCategory}
+        />
+      );
     },
   },
 ];

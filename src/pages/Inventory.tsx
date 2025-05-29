@@ -13,7 +13,7 @@ export const Inventory = () => {
         <ItemsList
           items={items}
           searchDataKey={'product'}
-          addNewLink="/app/add-item"
+          addNewLink="/app/inventory/add"
           isPending={!!isPending}
           columns={columns}
         />

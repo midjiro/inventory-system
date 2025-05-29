@@ -55,8 +55,8 @@ export const columns: ColumnDef<IItem>[] = [
       return (
         <ActionsDropdown
           item={item}
-          showMoreLink={`/app/details/${item.id}`}
-          updateLink={`/app/edit/${item.id}`}
+          showMoreLink={`/app/inventory/${item.id}`}
+          updateLink={`/app/inventory/update/${item.id}`}
           onDelete={removeInventoryItem}
         />
       );

@@ -4,26 +4,26 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
+  query,
   serverTimestamp,
   updateDoc,
+  where,
 } from 'firebase/firestore';
 import type { ICategory } from '../model';
 import { db } from '@/lib/firebsae';
 import { FirebaseError } from 'firebase/app';
 import { getErrorMessage } from '@/lib/utils';
-
-const COLLECTION = 'categories';
+import { categoryConverter } from '../converter';
 
 export const fetchCategories = createAsyncThunk(
   'categories/fetchAll',
   async (_, { rejectWithValue }) => {
     try {
-      const snapshot = await getDocs(collection(db, COLLECTION));
-      return snapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-      })) as ICategory[];
+      const ref = collection(db, 'categories').withConverter(categoryConverter);
+      const snapshot = await getDocs(ref);
+      return snapshot.docs.map(doc => doc.data()) as ICategory[];
     } catch (error) {
       const msg =
         error instanceof FirebaseError
@@ -35,15 +35,27 @@ export const fetchCategories = createAsyncThunk(
   }
 );
 
-export const createCategory = createAsyncThunk(
-  'categories/create',
+export const addCategory = createAsyncThunk(
+  'categories/add',
   async (data: Omit<ICategory, 'id' | 'createdAt'>, { rejectWithValue }) => {
     try {
-      const docRef = await addDoc(collection(db, COLLECTION), {
+      const q = query(
+        collection(db, 'categories'),
+        where('name', '==', data.name)
+      );
+      const querySnapshot = await getDocs(q);
+
+      if (!querySnapshot.empty) {
+        return rejectWithValue('Category with this name already exists.');
+      }
+
+      const docRef = await addDoc(collection(db, 'categories'), {
         ...data,
         createdAt: serverTimestamp(),
       });
-      return { ...data, id: docRef.id } as ICategory;
+      const newDoc = await getDoc(docRef.withConverter(categoryConverter));
+
+      return newDoc.data() as ICategory;
     } catch (error) {
       const msg =
         error instanceof FirebaseError
@@ -57,24 +69,40 @@ export const createCategory = createAsyncThunk(
 
 export const updateCategory = createAsyncThunk(
   'categories/update',
-  async ({ id, data }: { id: string; data: Partial<ICategory> }, thunkAPI) => {
+  async (item: ICategory, { rejectWithValue }) => {
     try {
-      await updateDoc(doc(db, COLLECTION, id), data);
-      return { ...data, id } as ICategory;
-    } catch (err: any) {
-      return thunkAPI.rejectWithValue(err.message);
+      const { id, ...updateData } = item;
+      if (!id) return rejectWithValue('Unable to access item identifier.');
+
+      const ref = doc(db, 'categories', id);
+      await updateDoc(ref, updateData);
+      const updatedDoc = await getDoc(ref);
+
+      return { id: updatedDoc.id, ...updatedDoc.data() } as ICategory;
+    } catch (error) {
+      const msg =
+        error instanceof FirebaseError
+          ? getErrorMessage(error)
+          : 'We encountered an unexpected error. Contact us.';
+
+      return rejectWithValue(msg);
     }
   }
 );
 
-export const deleteCategory = createAsyncThunk(
-  'categories/delete',
-  async (id: string, thunkAPI) => {
+export const removeCategory = createAsyncThunk(
+  'categories/remove',
+  async (id: string, { rejectWithValue }) => {
     try {
-      await deleteDoc(doc(db, COLLECTION, id));
+      await deleteDoc(doc(db, 'categories', id));
       return id;
-    } catch (err: any) {
-      return thunkAPI.rejectWithValue(err.message);
+    } catch (error) {
+      const msg =
+        error instanceof FirebaseError
+          ? getErrorMessage(error)
+          : 'We encountered an unexpected error. Contact us.';
+
+      return rejectWithValue(msg);
     }
   }
 );

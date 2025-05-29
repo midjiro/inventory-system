@@ -6,8 +6,8 @@ import {
 } from '@reduxjs/toolkit';
 import { type ICategory } from '../model';
 import {
-  createCategory,
-  deleteCategory,
+  addCategory,
+  removeCategory,
   fetchCategories,
   updateCategory,
 } from './actions';
@@ -36,7 +36,7 @@ const categorySlice = createSlice({
         }
       )
       .addCase(
-        createCategory.fulfilled,
+        addCategory.fulfilled,
         (state, action: PayloadAction<ICategory>) => {
           state.isPending = false;
           state.items.push(action.payload);
@@ -47,7 +47,7 @@ const categorySlice = createSlice({
         (state, action: PayloadAction<ICategory>) => {
           state.isPending = false;
           const index = state.items.findIndex(
-            cat => cat.id === action.payload.id
+            category => category.id === action.payload.id
           );
           if (index !== -1) {
             state.items[index] = action.payload;
@@ -55,19 +55,14 @@ const categorySlice = createSlice({
         }
       )
       .addCase(
-        deleteCategory.fulfilled,
+        removeCategory.fulfilled,
         (state, action: PayloadAction<string>) => {
           state.isPending = false;
           state.items = state.items.filter(cat => cat.id !== action.payload);
         }
       )
       .addMatcher(
-        isPending(
-          fetchCategories,
-          createCategory,
-          updateCategory,
-          deleteCategory
-        ),
+        isPending(fetchCategories, addCategory, updateCategory, removeCategory),
         state => {
           state.isPending = true;
         }
@@ -75,9 +70,9 @@ const categorySlice = createSlice({
       .addMatcher(
         isRejected(
           fetchCategories,
-          createCategory,
+          addCategory,
           updateCategory,
-          deleteCategory
+          removeCategory
         ),
         state => {
           state.isPending = false;

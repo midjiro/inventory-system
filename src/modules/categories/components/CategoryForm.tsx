@@ -9,9 +9,10 @@ import { Form } from '@/components/ui/form';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { selectCategories } from '../store/selectors';
 import type { ICategory } from '../model';
-import type { createCategory, updateCategory } from '../store/actions';
+import type { addCategory, updateCategory } from '../store/actions';
 import { categorySchema } from '../validation/category-schema';
 import { CustomTextareaField } from '@/components/layout/CustomTextareaField';
+import { useVerifiedOnly } from '@/modules/auth/hooks/useVerifiedOnly';
 
 const values = {
   name: '',
@@ -22,7 +23,7 @@ type Props = {
   submitLabel: string;
   submitIcon: LucideIcon;
   submitMessage: string;
-  action: typeof createCategory | typeof updateCategory;
+  action: typeof addCategory | typeof updateCategory;
   defaultValues?: ICategory | null | undefined;
 };
 
@@ -35,15 +36,15 @@ export const CategoryForm: React.FC<Props> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { isPending } = useAppSelector(selectCategories);
+  const allowedAction = useVerifiedOnly();
+
   const form = useForm({
     defaultValues: defaultValues ?? values,
     resolver: yupResolver(categorySchema),
   });
 
   const onReset = () => form.reset(values);
-  const onSubmit = (
-    data: Omit<ICategory, 'id' | 'createdAt' | 'updatedAt'>
-  ) => {
+  const onSubmit = (data: ICategory) => {
     dispatch(action(data))
       .unwrap()
       .then(() =>
@@ -66,7 +67,11 @@ export const CategoryForm: React.FC<Props> = ({
         <CustomTextareaField label="Description" name="description" />
 
         <div className="max-w-full flex flex-col justify-stretch items-center gap-4">
-          <Button type="submit" className="w-full" disabled={isPending}>
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={isPending || !allowedAction}
+          >
             {isPending ? (
               <LoaderCircle className="animate-spin" />
             ) : (

@@ -15,7 +15,7 @@ export const Categories = () => {
         <ItemsList
           items={items}
           searchDataKey={'name'}
-          addNewLink="/app/add-category"
+          addNewLink="/app/categories/add"
           isPending={!!isPending}
           columns={columns}
         />

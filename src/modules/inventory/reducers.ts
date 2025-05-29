@@ -1,4 +1,4 @@
-import { createSlice, isAnyOf } from '@reduxjs/toolkit';
+import { createSlice, isAnyOf, type PayloadAction } from '@reduxjs/toolkit';
 import type { IItem } from './models';
 import {
   addInventoryItem,
@@ -8,7 +8,7 @@ import {
 } from './actions';
 
 interface State {
-  items: IItem[] | [];
+  items: IItem[];
   isPending?: boolean;
 }
 
@@ -32,13 +32,21 @@ const inventorySlice = createSlice({
         state.isPending = false;
         state.items = action.payload;
       })
-      .addCase(addInventoryItem.fulfilled, (state, action) => {
-        state.isPending = false;
-        if (action.payload) state.items.push(action.payload);
-      })
+      .addCase(
+        addInventoryItem.fulfilled,
+        (state, action: PayloadAction<IItem>) => {
+          state.isPending = false;
+          if (action.payload) state.items.push(action.payload);
+        }
+      )
       .addCase(updateInventoryItem.fulfilled, (state, action) => {
         state.isPending = false;
-        if (action.payload) state.items.push(action.payload);
+        const index = state.items.findIndex(
+          category => category.id === action.payload.id
+        );
+        if (index !== -1) {
+          state.items[index] = action.payload;
+        }
       })
       .addCase(removeInventoryItem.fulfilled, (state, action) => {
         state.isPending = false;

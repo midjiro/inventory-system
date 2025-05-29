@@ -13,6 +13,7 @@ import type { IItem } from '../models';
 import type { addInventoryItem, updateInventoryItem } from '../actions';
 import { selectCategoriesWithLoading } from '../selectors';
 import { itemFormSchema } from '../validation/item-form';
+import { useVerifiedOnly } from '@/modules/auth/hooks/useVerifiedOnly';
 
 const values = {
   product: '',
@@ -41,6 +42,7 @@ export const ItemForm: React.FC<Props> = ({
 }) => {
   const dispatch = useAppDispatch();
   const { isPending, categories } = useAppSelector(selectCategoriesWithLoading);
+  const allowedAction = useVerifiedOnly();
 
   const options = categories.map(category => ({
     value: category.name.toLowerCase(),
@@ -143,7 +145,11 @@ export const ItemForm: React.FC<Props> = ({
             </div>
           </fieldset>
           <div className="max-w-full flex flex-col justify-stretch items-center gap-4">
-            <Button type="submit" className="w-full" disabled={isPending}>
+            <Button
+              type="submit"
+              className="w-full"
+              disabled={isPending || !allowedAction}
+            >
               {isPending ? (
                 <LoaderCircle className="animate-spin" />
               ) : (

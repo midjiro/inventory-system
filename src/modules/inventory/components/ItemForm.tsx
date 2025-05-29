@@ -1,42 +1,21 @@
+import type React from 'react';
+import { useForm } from 'react-hook-form';
+import { toast } from 'sonner';
+import { QRCodeSVG } from 'qrcode.react';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Eraser, LoaderCircle, type LucideIcon } from 'lucide-react';
 import { CustomFormField } from '@/components/layout/CustomFormField';
 import { CustomSelectField } from '@/components/layout/CustomSelectField';
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import { yupResolver } from '@hookform/resolvers/yup';
-import { Eraser, LoaderCircle, PackagePlus } from 'lucide-react';
-import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
-import { QRCodeSVG } from 'qrcode.react';
-import type { IItem } from '../models';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
-import { selectInventory } from '../selectors';
-import { addInventoryItem } from '../actions';
-import { toast } from 'sonner';
+import type { IItem } from '../models';
 import { categories } from '../constants/categories';
+import type { addInventoryItem, updateInventoryItem } from '../actions';
+import { selectInventory } from '../selectors';
+import { itemFormSchema } from '../validation/item-form';
 
-const schema = yup.object().shape({
-  product: yup.string().required('Product name is required'),
-  category: yup.string().required('Category is required'),
-  sku: yup.string().required('SKU is required'),
-  available: yup
-    .number()
-    .required('Available quantity is required')
-    .min(0, 'Available quantity must be 0 or more'),
-  unitPrice: yup
-    .string()
-    .oneOf(
-      ['In stock', 'Low stock', 'Out of stock', 'Discontinued'],
-      'Invalid stock status'
-    )
-    .required('Stock status is required'),
-  location: yup.string().required('Location is required'),
-  totalRevenue: yup
-    .number()
-    .required('Total revenue is required')
-    .min(0, 'Revenue must be 0 or more'),
-});
-
-const defaultValues = {
+const values = {
   product: '',
   category: '',
   sku: '',
@@ -46,20 +25,39 @@ const defaultValues = {
   totalRevenue: 1,
 };
 
-export const AddItemForm = () => {
-  const form = useForm({
-    defaultValues,
-    resolver: yupResolver(schema),
-  });
+type Props = {
+  submitLabel: string;
+  submitIcon: LucideIcon;
+  submitMessage: string;
+  action: typeof addInventoryItem | typeof updateInventoryItem;
+  defaultValues?: IItem | null | undefined;
+};
+
+export const ItemForm: React.FC<Props> = ({
+  submitLabel,
+  submitIcon: SubmitIcon,
+  submitMessage,
+  action,
+  defaultValues,
+}) => {
   const dispatch = useAppDispatch();
   const { isPending } = useAppSelector(selectInventory);
+  const form = useForm({
+    defaultValues: defaultValues ?? values,
+    resolver: yupResolver(itemFormSchema),
+  });
 
-  const onReset = () => form.reset(defaultValues);
-  const onSubmit = (data: IItem) =>
-    dispatch(addInventoryItem(data))
-      .then(() => toast.success('Item added successfully!'))
-      .then(onReset)
+  const onReset = () => form.reset(values);
+  const onSubmit = (data: IItem) => {
+    console.log(data);
+    dispatch(action(data))
+      .unwrap()
+      .then(() =>
+        toast.success('Submitted successfully', { description: submitMessage })
+      )
+      .then(() => onReset())
       .catch(msg => toast.error(msg));
+  };
 
   return (
     <section className="flex flex-wrap items-center gap-6">
@@ -72,7 +70,9 @@ export const AddItemForm = () => {
         <form
           method="post"
           className="min-w-[288px] basis-1/3 flex-grow flex-shrink space-y-6"
-          onSubmit={form.handleSubmit(onSubmit)}
+          onSubmit={form.handleSubmit(data => {
+            onSubmit(data);
+          })}
         >
           <fieldset className="max-w-full">
             <legend className="mb-4">General</legend>
@@ -144,8 +144,8 @@ export const AddItemForm = () => {
                 <LoaderCircle className="animate-spin" />
               ) : (
                 <>
-                  <PackagePlus />
-                  <span>Add</span>
+                  <SubmitIcon />
+                  <span>{submitLabel}</span>
                 </>
               )}
             </Button>

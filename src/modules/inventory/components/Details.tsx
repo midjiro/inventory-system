@@ -10,13 +10,13 @@ import {
   Pencil,
   ScanBarcode,
   Tag,
-  Trash,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Link } from 'react-router-dom';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { cn, formatPrice } from '@/lib/utils';
 import { QRCodeSVG } from 'qrcode.react';
+import { RemoveItemDialog } from './RemoveItemDialog';
 
 export const Details: React.FC<{ id: string | undefined }> = ({ id }) => {
   const { isPending, item } = useAppSelector(state =>
@@ -48,7 +48,7 @@ export const Details: React.FC<{ id: string | undefined }> = ({ id }) => {
         title={item.sku}
         value={item.sku}
         level="H"
-        className="min-w-[288px] basis-1/3 flex-grow flex-shrink"
+        className="min-w-[288px] basis-1/4 flex-grow flex-shrink"
       />
       <div className="min-w-[288px] basis-1/3 flex-grow flex-shrink space-y-4">
         <div className="flex items-center gap-4 mb-8">
@@ -93,19 +93,17 @@ export const Details: React.FC<{ id: string | undefined }> = ({ id }) => {
         <div className="flex flex-wrap items-center gap-4">
           <Button
             className="min-w-[144px] basis-1/3 flex-grow flex-shrink"
-            disabled
+            asChild
           >
-            <Pencil />
-            <span>Edit</span>
+            <Link to={`/app/edit/${item.id}`}>
+              <Pencil />
+              <span>Edit</span>
+            </Link>
           </Button>
-          <Button
-            variant={'destructive'}
+          <RemoveItemDialog
+            id={item.id}
             className="min-w-[144px] basis-1/3 flex-grow flex-shrink"
-            disabled
-          >
-            <Trash />
-            <span>Remove</span>
-          </Button>
+          />
         </div>
       </div>
     </article>

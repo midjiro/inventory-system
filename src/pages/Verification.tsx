@@ -1,11 +1,11 @@
+import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
+import { LoaderCircle } from 'lucide-react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { useAppDispatch, useAppSelector } from '@/hooks/redux';
 import { selectCurrentUser, useAutoLogin, verify } from '@/modules/auth';
 import { sendVerificationEmail } from '@/modules/auth/actions';
-import { LoaderCircle } from 'lucide-react';
-import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { toast } from 'sonner';
 
 export const Verification = () => {
   const dispatch = useAppDispatch();

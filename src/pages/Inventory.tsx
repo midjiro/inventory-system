@@ -1,5 +1,5 @@
 import { Header } from '@/components/layout/Header';
-import { ItemsList } from '@/modules/inventory/components/ItemList';
+import { ItemsList } from '@/modules/inventory';
 
 export const Inventory = () => {
   return (

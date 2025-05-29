@@ -1,5 +1,5 @@
 import { Header } from '@/components/layout/Header';
-import { Details } from '@/modules/inventory/components/Details';
+import { Details } from '@/modules/inventory';
 import { useParams } from 'react-router-dom';
 
 export const ItemDetails = () => {

@@ -4,7 +4,7 @@ export interface IItem {
   category: string;
   sku: string;
   available: number;
-  unitPrice: 'In stock' | 'Low stock' | 'Out of stock' | 'Discontinued';
+  unitPrice: string;
   location: string;
   totalRevenue: number;
 }

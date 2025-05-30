@@ -44,7 +44,7 @@ export const CategoryForm: React.FC<Props> = ({
   });
 
   const onReset = () => form.reset(values);
-  const onSubmit = (data: ICategory) => {
+  const onSubmit = (data: any) => {
     dispatch(action(data))
       .unwrap()
       .then(() =>

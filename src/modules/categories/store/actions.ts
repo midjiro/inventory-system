@@ -53,9 +53,9 @@ export const addCategory = createAsyncThunk(
         ...data,
         createdAt: serverTimestamp(),
       });
-      const newDoc = await getDoc(docRef.withConverter(categoryConverter));
+      const newDoc = await getDoc(docRef);
 
-      return newDoc.data() as ICategory;
+      return { id: newDoc.id, ...newDoc.data() } as ICategory;
     } catch (error) {
       const msg =
         error instanceof FirebaseError

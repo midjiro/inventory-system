@@ -55,7 +55,7 @@ export const ItemForm: React.FC<Props> = ({
   });
 
   const onReset = () => form.reset(values);
-  const onSubmit = (data: IItem) => {
+  const onSubmit = (data: any) => {
     dispatch(action(data))
       .unwrap()
       .then(() =>
